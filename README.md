@@ -62,3 +62,4 @@ pip install numpy editdistance
 ## Limitations:
 
 The current implementation of the system does not involve comprehensive linguistic analysis to understand the context or grammar of the input. Instead, it relies on statistical methods to generate suggestions based on edit distance and word probabilities.
+# autocorrection
