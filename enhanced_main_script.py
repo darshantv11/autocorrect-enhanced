@@ -45,6 +45,9 @@ class EnhancedAutoCorrectApp(tk.Tk):
         self.previous_words = []
         self.grammar_popup = None
         self.correction_history = []
+        self.synonym_popup = None
+        self.last_synonym_tag = None
+        self.last_synonym_badge_index = None
 
         # Bind events
         self.bind_events()
@@ -124,6 +127,10 @@ class EnhancedAutoCorrectApp(tk.Tk):
                                            command=self.suggestion_listbox.yview)
         suggestion_scrollbar.pack(side="right", fill="y")
         self.suggestion_listbox.configure(yscrollcommand=suggestion_scrollbar.set)
+
+        # Remove synonym label from the UI
+        # self.synonym_label = ttk.Label(right_frame, text="", foreground="blue", wraplength=250, justify="left")
+        # self.synonym_label.pack(fill="x", pady=(5, 0))
 
         # Grammar feedback label
         self.grammar_label = ttk.Label(right_frame, text="", foreground="red", 
@@ -211,12 +218,16 @@ class EnhancedAutoCorrectApp(tk.Tk):
 
         self.current_word = ""
         self.grammar_check_last_sentence()
+        # Insert synonym badge after the last word
+        self.insert_synonym_badge()
 
     def autocorrect_suggestions(self):
         """Show auto-correction suggestions."""
         word = self.current_word.lower()
         if len(word) < 3:
             self.suggestion_listbox.delete(0, tk.END)
+            if hasattr(self, 'synonym_label'):
+                self.synonym_label.config(text="")
             return
 
         # Get suggestions based on mode
@@ -229,9 +240,21 @@ class EnhancedAutoCorrectApp(tk.Tk):
             corrections = self.original_checker.correct_spelling(word)
 
         self.suggestion_listbox.delete(0, tk.END)
+        synonyms_text = ""
         if corrections:
-            for correction in corrections[:5]:  # Show top 5 suggestions
-                self.suggestion_listbox.insert(tk.END, correction[0])
+            for i, correction in enumerate(corrections[:5]):
+                # For enhanced mode, correction may have synonyms as the 5th element
+                if mode == "enhanced" and len(correction) >= 5:
+                    word_suggestion = correction[0]
+                    synonyms = correction[4]
+                    if i == 0 and synonyms:
+                        synonyms_text = f"Synonyms: {', '.join(synonyms)}"
+                    self.suggestion_listbox.insert(tk.END, word_suggestion)
+                else:
+                    self.suggestion_listbox.insert(tk.END, correction[0])
+        # Update the synonym label
+        if hasattr(self, 'synonym_label'):
+            self.synonym_label.config(text=synonyms_text)
 
     def on_listbox_select(self, event):
         """Handle suggestion selection."""
@@ -602,6 +625,83 @@ Features Available:
     def run(self):
         """Start the application."""
         self.mainloop()
+
+    def insert_synonym_badge(self):
+        # Remove all previous synonym tags and popups
+        self.input_box.tag_remove("synonym_badge", "1.0", tk.END)
+        if hasattr(self, 'synonym_popup') and self.synonym_popup:
+            self.synonym_popup.destroy()
+            self.synonym_popup = None
+        self.last_synonym_badge_index = None
+
+        # Get all words in the text
+        text = self.input_box.get("1.0", tk.END).rstrip("\n")
+        if not text:
+            print("No text in input_box.")
+            return
+        words = text.split()
+        if not words:
+            print("No words found.")
+            return
+
+        # Tag every word with synonyms
+        idx = "1.0"
+        chars_seen = 0
+        line_start = int(self.input_box.index('end-1c').split('.')[0])
+        text_no_trail = text.rstrip()
+        for word in words:
+            if len(word) < 3:
+                chars_seen += len(word) + 1  # +1 for space or punctuation
+                continue
+            mode = self.mode_var.get()
+            synonyms = []
+            if mode == "enhanced":
+                synonyms = self.enhanced_checker.get_synonyms(word)
+            if not synonyms:
+                chars_seen += len(word) + 1
+                continue
+            # Find the line and column of the word
+            word_start_idx = None
+            chars_counted = 0
+            for line_num in range(1, line_start+1):
+                line_text = self.input_box.get(f"{line_num}.0", f"{line_num}.end")
+                if chars_counted + len(line_text) >= chars_seen:
+                    col = chars_seen - chars_counted
+                    word_start_idx = f"{line_num}.{col}"
+                    break
+                chars_counted += len(line_text) + 1  # +1 for newline
+            if not word_start_idx:
+                chars_seen += len(word) + 1
+                continue
+            word_end_idx = f"{word_start_idx}+{len(word)}c"
+            tag_name = "synonym_badge"
+            self.input_box.tag_add(tag_name, word_start_idx, word_end_idx)
+            self.input_box.tag_configure(tag_name, foreground="blue", underline=True)
+            self.input_box.tag_bind(tag_name, "<Enter>", lambda e, w=word, s=synonyms: self.show_synonym_popup(e, w, s))
+            self.input_box.tag_bind(tag_name, "<Leave>", lambda e: self.hide_synonym_popup())
+            self.input_box.tag_bind(tag_name, "<Button-1>", lambda e, w=word, s=synonyms: self.show_synonym_popup(e, w, s))
+            print(f"Tagged word '{word}' at {word_start_idx}")
+            chars_seen += len(word) + 1  # +1 for space or punctuation
+        # Restore the cursor to the end
+        self.input_box.mark_set(tk.INSERT, tk.END)
+
+    def show_synonym_popup(self, event, word, synonyms):
+        if hasattr(self, 'synonym_popup') and self.synonym_popup:
+            self.synonym_popup.destroy()
+        if not synonyms:
+            return
+        x = self.input_box.winfo_rootx() + event.x
+        y = self.input_box.winfo_rooty() + event.y + 20
+        self.synonym_popup = tk.Toplevel(self)
+        self.synonym_popup.wm_overrideredirect(True)
+        self.synonym_popup.geometry(f"+{x}+{y}")
+        label = tk.Label(self.synonym_popup, text=f"Synonyms for '{word}':\n" + ", ".join(synonyms), background="lightyellow", borderwidth=1, relief="solid", justify="left")
+        label.pack(ipadx=5, ipady=3)
+
+    def hide_synonym_popup(self):
+        if hasattr(self, 'synonym_popup') and self.synonym_popup:
+            self.synonym_popup.destroy()
+            self.synonym_popup = None
 
 if __name__ == "__main__":
     app = EnhancedAutoCorrectApp()

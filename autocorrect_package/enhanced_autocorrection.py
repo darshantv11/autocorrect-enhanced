@@ -9,6 +9,7 @@ import json
 import os
 # Add SymSpellPy import
 from symspellpy.symspellpy import SymSpell, Verbosity
+from nltk.corpus import wordnet
 
 class EnhancedAutocorrection(object):
     """
@@ -306,28 +307,41 @@ class EnhancedAutocorrection(object):
     def correct_spelling_enhanced(self, previous_words, word):
         """
         SymSpellPy-only spelling correction (ignores custom corpus for suggestions).
+        Also provides synonyms for the top suggestion.
         """
         # First check if it's a shortcut
         shortcut_expansion = self.get_shortcut_expansion(word)
         if shortcut_expansion:
-            return [(shortcut_expansion, 1.0, 1.0, "Shortcut expansion")]
+            return [(shortcut_expansion, 1.0, 1.0, "Shortcut expansion", self.get_synonyms(shortcut_expansion))]
 
         # If word is in SymSpell dictionary, return it as correct
         if word in self.sym_spell._words:
-            return [(word, 1.0, 1.0, "SymSpellPy")]
+            synonyms = self.get_synonyms(word)
+            return [(word, 1.0, 1.0, "SymSpellPy", synonyms)]
 
         # Use SymSpellPy for fast spelling suggestions
         symspell_suggestions = self.sym_spell.lookup(word, Verbosity.CLOSEST, max_edit_distance=2, include_unknown=True)
         if symspell_suggestions:
             results = []
-            for suggestion in symspell_suggestions[:5]:
+            for i, suggestion in enumerate(symspell_suggestions[:5]):
                 sug_word = suggestion.term
                 prob = suggestion.count  # Use SymSpell frequency count
-                results.append((sug_word, prob, 1.0, "SymSpellPy"))
+                synonyms = self.get_synonyms(sug_word) if i == 0 else []
+                results.append((sug_word, prob, 1.0, "SymSpellPy", synonyms))
             return results
 
         # If no suggestions found, return the original word
-        return [(word, 0, 0, "No suggestion")]
+        return [(word, 0, 0, "No suggestion", [])]
+
+    def get_synonyms(self, word, max_synonyms=5):
+        """Get synonyms for a word using WordNet."""
+        synonyms = set()
+        for syn in wordnet.synsets(word):
+            for lemma in syn.lemmas():
+                name = lemma.name().replace('_', ' ').lower()
+                if name != word.lower():
+                    synonyms.add(name)
+        return list(synonyms)[:max_synonyms]
 
     def get_context_probability(self, word, previous_words):
         """Get the context probability for a word given previous words."""
