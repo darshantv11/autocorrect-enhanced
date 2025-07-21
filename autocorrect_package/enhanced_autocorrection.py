@@ -7,6 +7,8 @@ import nltk
 from nltk.corpus import brown, reuters
 import json
 import os
+# Add SymSpellPy import
+from symspellpy.symspellpy import SymSpell, Verbosity
 
 class EnhancedAutocorrection(object):
     """
@@ -18,7 +20,13 @@ class EnhancedAutocorrection(object):
         self.custom_words = set()
         self.shortcuts = {}  # Dictionary to store shortcuts: {"bcz": "because", "mrn": "morning"}
         self.user_feedback = {}  # Track user corrections for learning
-        
+        # SymSpellPy initialization
+        self.sym_spell = SymSpell(max_dictionary_edit_distance=2, prefix_length=7)
+        dict_path = os.path.join(os.path.dirname(__file__), "frequency_dictionary_en_82_765.txt")
+        if os.path.exists(dict_path):
+            self.sym_spell.load_dictionary(dict_path, term_index=0, count_index=1)
+        else:
+            print(f"Warning: SymSpell frequency dictionary not found at {dict_path}")
         # Load original corpus
         self.original_words = self.load_original_corpus(original_corpus_file)
         
@@ -297,30 +305,29 @@ class EnhancedAutocorrection(object):
 
     def correct_spelling_enhanced(self, previous_words, word):
         """
-        Enhanced spelling correction using n-gram context and user feedback.
+        SymSpellPy-only spelling correction (ignores custom corpus for suggestions).
         """
         # First check if it's a shortcut
         shortcut_expansion = self.get_shortcut_expansion(word)
         if shortcut_expansion:
-            return [(shortcut_expansion, self.prob_of_word.get(shortcut_expansion, 0.001), 1.0, "Shortcut expansion")]
+            return [(shortcut_expansion, 1.0, 1.0, "Shortcut expansion")]
 
-        # If word is in vocabulary, return it as correct
-        if word in self.vocabulary:
-            return [(word, self.prob_of_word[word], 1.0)]
+        # If word is in SymSpell dictionary, return it as correct
+        if word in self.sym_spell._words:
+            return [(word, 1.0, 1.0, "SymSpellPy")]
 
-        # Generate suggestions
-        suggestions = self.edit1(word).union(self.edit2(word))
-        best_guesses = [w for w in suggestions if w in self.vocabulary]
-        
-        if not best_guesses:
-            # If no suggestions found, return the original word
-            return [(word, 0, 0)]
+        # Use SymSpellPy for fast spelling suggestions
+        symspell_suggestions = self.sym_spell.lookup(word, Verbosity.CLOSEST, max_edit_distance=2, include_unknown=True)
+        if symspell_suggestions:
+            results = []
+            for suggestion in symspell_suggestions[:5]:
+                sug_word = suggestion.term
+                prob = suggestion.count  # Use SymSpell frequency count
+                results.append((sug_word, prob, 1.0, "SymSpellPy"))
+            return results
 
-        # Sort by enhanced context score
-        best_guesses.sort(key=lambda w: self.enhanced_context_score(w, word, previous_words))
-        
-        # Return top 5 suggestions
-        return [(w, self.prob_of_word[w], self.get_context_probability(w, previous_words)) for w in best_guesses[:5]]
+        # If no suggestions found, return the original word
+        return [(word, 0, 0, "No suggestion")]
 
     def get_context_probability(self, word, previous_words):
         """Get the context probability for a word given previous words."""
