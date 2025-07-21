@@ -1,0 +1,85 @@
+{
+  "hello": {
+    "word": "hello",
+    "phonetic": "",
+    "meanings": [
+      {
+        "partOfSpeech": "noun",
+        "definitions": [
+          "\"Hello!\" or an equivalent greeting."
+        ]
+      },
+      {
+        "partOfSpeech": "verb",
+        "definitions": [
+          "To greet with \"hello\"."
+        ]
+      },
+      {
+        "partOfSpeech": "interjection",
+        "definitions": [
+          "A greeting (salutation) said when meeting someone or acknowledging someone\u2019s arrival or presence.",
+          "A greeting used when answering the telephone."
+        ]
+      }
+    ]
+  },
+  "darshan": {
+    "word": "darshan",
+    "phonetic": "",
+    "meanings": [
+      {
+        "partOfSpeech": "noun",
+        "definitions": [
+          "Hierophany, theophany; being in the presence of the divine or holy (as a person or object)."
+        ]
+      }
+    ]
+  },
+  "marshal": {
+    "word": "marshal",
+    "phonetic": "/\u02c8m\u0251\u02d0\u0283\u0259l/",
+    "meanings": [
+      {
+        "partOfSpeech": "noun",
+        "definitions": [
+          "A high-ranking officer in the household of a medieval prince or lord, who was originally in charge of the cavalry and later the military forces in general.",
+          "A military officer of the highest rank in several countries, including France and the former Soviet Union; equivalent to a general of the army in the United States. See also field marshal."
+        ]
+      },
+      {
+        "partOfSpeech": "verb",
+        "definitions": [
+          "To arrange (troops, etc.) in line for inspection or a parade.",
+          "(by extension) To arrange (facts, etc.) in some methodical order."
+        ]
+      }
+    ]
+  },
+  "python": {
+    "word": "python",
+    "phonetic": "",
+    "meanings": [
+      {
+        "partOfSpeech": "noun",
+        "definitions": [
+          "A type of large constricting snake.",
+          "Penis"
+        ]
+      }
+    ]
+  },
+  "algorithm": {
+    "word": "algorithm",
+    "phonetic": "/\u02c8\u00e6l\u0261\u0259\u0279\u026a\u00f0m\u0329/",
+    "meanings": [
+      {
+        "partOfSpeech": "noun",
+        "definitions": [
+          "A collection of ordered steps that solve a mathematical problem. A precise step-by-step plan for a computational procedure that possibly begins with an input value and yields an output value in a finite number of steps.",
+          "Calculation with Arabic numerals; algorism."
+        ]
+      }
+    ]
+  }
+}

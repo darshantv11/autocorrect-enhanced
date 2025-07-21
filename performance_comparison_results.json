@@ -1,0 +1,820 @@
+{
+  "original_system": {
+    "correct_corrections": 10,
+    "incorrect_corrections": 8,
+    "no_suggestions": 14,
+    "total_time": 1.5071101188659668,
+    "vocabulary_size": 10000,
+    "test_cases": [
+      {
+        "original": "thier",
+        "expected": "their",
+        "context": "forgot thier book",
+        "suggestions": [
+          "tier",
+          "thing",
+          "thick",
+          "third",
+          "think",
+          "three",
+          "their",
+          "there",
+          "tries",
+          "tower",
+          "thin",
+          "then",
+          "thee",
+          "them",
+          "ties",
+          "tied",
+          "tuner",
+          "toner",
+          "timer",
+          "this",
+          "tiger",
+          "tried",
+          "tyler",
+          "they",
+          "other",
+          "chief",
+          "sheer",
+          "tie",
+          "her",
+          "the",
+          "hire",
+          "tire"
+        ],
+        "time": 0.03420114517211914
+      },
+      {
+        "original": "thier",
+        "expected": "their",
+        "context": "thier house",
+        "suggestions": [
+          "tier",
+          "thing",
+          "thick",
+          "third",
+          "think",
+          "three",
+          "their",
+          "there",
+          "tries",
+          "tower",
+          "thin",
+          "then",
+          "thee",
+          "them",
+          "ties",
+          "tied",
+          "tuner",
+          "toner",
+          "timer",
+          "this",
+          "tiger",
+          "tried",
+          "tyler",
+          "they",
+          "other",
+          "chief",
+          "sheer",
+          "tie",
+          "her",
+          "the",
+          "hire",
+          "tire"
+        ],
+        "time": 0.030785083770751953
+      },
+      {
+        "original": "recieve",
+        "expected": "receive",
+        "context": "I will recieve the package",
+        "suggestions": [
+          "receive",
+          "recipe",
+          "retrieve",
+          "believe",
+          "receives",
+          "receiver",
+          "received"
+        ],
+        "time": 0.0660247802734375
+      },
+      {
+        "original": "recieve",
+        "expected": "receive",
+        "context": "recieve payment",
+        "suggestions": [
+          "receive",
+          "recipe",
+          "retrieve",
+          "believe",
+          "receives",
+          "receiver",
+          "received"
+        ],
+        "time": 0.06675267219543457
+      },
+      {
+        "original": "seperate",
+        "expected": "separate",
+        "context": "keep them seperate",
+        "suggestions": [
+          "operate",
+          "separate",
+          "separated",
+          "generate",
+          "desperate"
+        ],
+        "time": 0.08436155319213867
+      },
+      {
+        "original": "seperate",
+        "expected": "separate",
+        "context": "seperate rooms",
+        "suggestions": [
+          "operate",
+          "separate",
+          "separated",
+          "generate",
+          "desperate"
+        ],
+        "time": 0.08416748046875
+      },
+      {
+        "original": "occured",
+        "expected": "occurred",
+        "context": "it occured yesterday",
+        "suggestions": [
+          "occurred",
+          "occurs",
+          "occupied",
+          "occur",
+          "accused",
+          "secured"
+        ],
+        "time": 0.06430554389953613
+      },
+      {
+        "original": "occured",
+        "expected": "occurred",
+        "context": "occured naturally",
+        "suggestions": [
+          "occurred",
+          "occurs",
+          "occupied",
+          "occur",
+          "accused",
+          "secured"
+        ],
+        "time": 0.06402182579040527
+      },
+      {
+        "original": "definately",
+        "expected": "definitely",
+        "context": "definately true",
+        "suggestions": [
+          "definitely"
+        ],
+        "time": 0.13310599327087402
+      },
+      {
+        "original": "definately",
+        "expected": "definitely",
+        "context": "definately going",
+        "suggestions": [
+          "definitely"
+        ],
+        "time": 0.12922334671020508
+      },
+      {
+        "original": "there",
+        "expected": "their",
+        "context": "there book",
+        "suggestions": [],
+        "time": 1.6450881958007812e-05
+      },
+      {
+        "original": "there",
+        "expected": "their",
+        "context": "there house",
+        "suggestions": [],
+        "time": 5.9604644775390625e-06
+      },
+      {
+        "original": "there",
+        "expected": "they're",
+        "context": "there going",
+        "suggestions": [],
+        "time": 1.1444091796875e-05
+      },
+      {
+        "original": "there",
+        "expected": "they're",
+        "context": "there coming",
+        "suggestions": [],
+        "time": 3.814697265625e-06
+      },
+      {
+        "original": "your",
+        "expected": "you're",
+        "context": "your welcome",
+        "suggestions": [],
+        "time": 4.5299530029296875e-06
+      },
+      {
+        "original": "your",
+        "expected": "you're",
+        "context": "your going",
+        "suggestions": [],
+        "time": 4.291534423828125e-06
+      },
+      {
+        "original": "its",
+        "expected": "it's",
+        "context": "its time",
+        "suggestions": [],
+        "time": 4.5299530029296875e-06
+      },
+      {
+        "original": "its",
+        "expected": "it's",
+        "context": "its here",
+        "suggestions": [],
+        "time": 3.5762786865234375e-06
+      },
+      {
+        "original": "to",
+        "expected": "too",
+        "context": "to much",
+        "suggestions": [],
+        "time": 4.76837158203125e-06
+      },
+      {
+        "original": "to",
+        "expected": "too",
+        "context": "to many",
+        "suggestions": [],
+        "time": 4.291534423828125e-06
+      },
+      {
+        "original": "python",
+        "expected": "python",
+        "context": "python programming",
+        "suggestions": [],
+        "time": 5.245208740234375e-06
+      },
+      {
+        "original": "python",
+        "expected": "python",
+        "context": "python code",
+        "suggestions": [],
+        "time": 4.0531158447265625e-06
+      },
+      {
+        "original": "api",
+        "expected": "api",
+        "context": "api endpoint",
+        "suggestions": [],
+        "time": 5.4836273193359375e-06
+      },
+      {
+        "original": "api",
+        "expected": "api",
+        "context": "api call",
+        "suggestions": [],
+        "time": 4.291534423828125e-06
+      },
+      {
+        "original": "json",
+        "expected": "json",
+        "context": "json data",
+        "suggestions": [
+          "jon",
+          "son",
+          "john",
+          "join",
+          "juan",
+          "jean",
+          "joan",
+          "jason",
+          "sony",
+          "won",
+          "ton",
+          "con",
+          "espn",
+          "tion",
+          "sen",
+          "noon",
+          "moon",
+          "upon",
+          "don",
+          "leon",
+          "bon",
+          "iron",
+          "ron",
+          "jan",
+          "neon",
+          "avon",
+          "lion",
+          "jun",
+          "ion",
+          "sons",
+          "sol",
+          "josh",
+          "isbn",
+          "asn",
+          "song",
+          "issn",
+          "hon",
+          "sox",
+          "non",
+          "asin",
+          "sin",
+          "mon",
+          "jose",
+          "msn",
+          "joe",
+          "san",
+          "soa",
+          "job",
+          "von",
+          "sun",
+          "joy",
+          "iso",
+          "soon",
+          "soc",
+          "icon",
+          "jo",
+          "mason",
+          "sn",
+          "epson",
+          "on",
+          "js",
+          "so"
+        ],
+        "time": 0.021297216415405273
+      },
+      {
+        "original": "json",
+        "expected": "json",
+        "context": "json format",
+        "suggestions": [
+          "jon",
+          "son",
+          "john",
+          "join",
+          "juan",
+          "jean",
+          "joan",
+          "jason",
+          "sony",
+          "won",
+          "ton",
+          "con",
+          "espn",
+          "tion",
+          "sen",
+          "noon",
+          "moon",
+          "upon",
+          "don",
+          "leon",
+          "bon",
+          "iron",
+          "ron",
+          "jan",
+          "neon",
+          "avon",
+          "lion",
+          "jun",
+          "ion",
+          "sons",
+          "sol",
+          "josh",
+          "isbn",
+          "asn",
+          "song",
+          "issn",
+          "hon",
+          "sox",
+          "non",
+          "asin",
+          "sin",
+          "mon",
+          "jose",
+          "msn",
+          "joe",
+          "san",
+          "soa",
+          "job",
+          "von",
+          "sun",
+          "joy",
+          "iso",
+          "soon",
+          "soc",
+          "icon",
+          "jo",
+          "mason",
+          "sn",
+          "epson",
+          "on",
+          "js",
+          "so"
+        ],
+        "time": 0.0200192928314209
+      },
+      {
+        "original": "beleive",
+        "expected": "believe",
+        "context": "I beleive you",
+        "suggestions": [
+          "belize",
+          "believe",
+          "receive",
+          "believes",
+          "believed"
+        ],
+        "time": 0.0654001235961914
+      },
+      {
+        "original": "beleive",
+        "expected": "believe",
+        "context": "beleive in yourself",
+        "suggestions": [
+          "belize",
+          "believe",
+          "receive",
+          "believes",
+          "believed"
+        ],
+        "time": 0.06540870666503906
+      },
+      {
+        "original": "neccessary",
+        "expected": "necessary",
+        "context": "neccessary steps",
+        "suggestions": [
+          "necessary"
+        ],
+        "time": 0.12958645820617676
+      },
+      {
+        "original": "neccessary",
+        "expected": "necessary",
+        "context": "neccessary changes",
+        "suggestions": [
+          "necessary"
+        ],
+        "time": 0.12778854370117188
+      },
+      {
+        "original": "accomodate",
+        "expected": "accommodate",
+        "context": "accomodate guests",
+        "suggestions": [
+          "accommodate"
+        ],
+        "time": 0.13114666938781738
+      },
+      {
+        "original": "accomodate",
+        "expected": "accommodate",
+        "context": "accomodate changes",
+        "suggestions": [
+          "accommodate"
+        ],
+        "time": 0.18943095207214355
+      }
+    ]
+  },
+  "enhanced_system": {
+    "correct_corrections": 8,
+    "incorrect_corrections": 24,
+    "no_suggestions": 0,
+    "total_time": 0.5124478340148926,
+    "vocabulary_size": 56468,
+    "test_cases": [
+      {
+        "original": "thier",
+        "expected": "their",
+        "context": "forgot thier book",
+        "suggestions": [
+          "the",
+          "they",
+          "their",
+          "there",
+          "this"
+        ],
+        "time": 0.03767681121826172
+      },
+      {
+        "original": "thier",
+        "expected": "their",
+        "context": "thier house",
+        "suggestions": [
+          "the",
+          "their",
+          "there",
+          "this",
+          "they"
+        ],
+        "time": 0.036078691482543945
+      },
+      {
+        "original": "recieve",
+        "expected": "receive",
+        "context": "I will recieve the package",
+        "suggestions": [
+          "recieve"
+        ],
+        "time": 8.821487426757812e-06
+      },
+      {
+        "original": "recieve",
+        "expected": "receive",
+        "context": "recieve payment",
+        "suggestions": [
+          "recieve"
+        ],
+        "time": 1.430511474609375e-06
+      },
+      {
+        "original": "seperate",
+        "expected": "separate",
+        "context": "keep them seperate",
+        "suggestions": [
+          "seperate"
+        ],
+        "time": 2.384185791015625e-06
+      },
+      {
+        "original": "seperate",
+        "expected": "separate",
+        "context": "seperate rooms",
+        "suggestions": [
+          "seperate"
+        ],
+        "time": 1.430511474609375e-06
+      },
+      {
+        "original": "occured",
+        "expected": "occurred",
+        "context": "it occured yesterday",
+        "suggestions": [
+          "occured"
+        ],
+        "time": 2.384185791015625e-06
+      },
+      {
+        "original": "occured",
+        "expected": "occurred",
+        "context": "occured naturally",
+        "suggestions": [
+          "occured"
+        ],
+        "time": 1.6689300537109375e-06
+      },
+      {
+        "original": "definately",
+        "expected": "definitely",
+        "context": "definately true",
+        "suggestions": [
+          "definately"
+        ],
+        "time": 3.0994415283203125e-06
+      },
+      {
+        "original": "definately",
+        "expected": "definitely",
+        "context": "definately going",
+        "suggestions": [
+          "definately"
+        ],
+        "time": 9.5367431640625e-07
+      },
+      {
+        "original": "there",
+        "expected": "their",
+        "context": "there book",
+        "suggestions": [
+          "there"
+        ],
+        "time": 1.1920928955078125e-06
+      },
+      {
+        "original": "there",
+        "expected": "their",
+        "context": "there house",
+        "suggestions": [
+          "there"
+        ],
+        "time": 9.5367431640625e-07
+      },
+      {
+        "original": "there",
+        "expected": "they're",
+        "context": "there going",
+        "suggestions": [
+          "there"
+        ],
+        "time": 9.5367431640625e-07
+      },
+      {
+        "original": "there",
+        "expected": "they're",
+        "context": "there coming",
+        "suggestions": [
+          "there"
+        ],
+        "time": 9.5367431640625e-07
+      },
+      {
+        "original": "your",
+        "expected": "you're",
+        "context": "your welcome",
+        "suggestions": [
+          "your"
+        ],
+        "time": 1.430511474609375e-06
+      },
+      {
+        "original": "your",
+        "expected": "you're",
+        "context": "your going",
+        "suggestions": [
+          "your"
+        ],
+        "time": 1.1920928955078125e-06
+      },
+      {
+        "original": "its",
+        "expected": "it's",
+        "context": "its time",
+        "suggestions": [
+          "its"
+        ],
+        "time": 1.430511474609375e-06
+      },
+      {
+        "original": "its",
+        "expected": "it's",
+        "context": "its here",
+        "suggestions": [
+          "its"
+        ],
+        "time": 7.152557373046875e-07
+      },
+      {
+        "original": "to",
+        "expected": "too",
+        "context": "to much",
+        "suggestions": [
+          "to"
+        ],
+        "time": 1.6689300537109375e-06
+      },
+      {
+        "original": "to",
+        "expected": "too",
+        "context": "to many",
+        "suggestions": [
+          "to"
+        ],
+        "time": 7.152557373046875e-07
+      },
+      {
+        "original": "python",
+        "expected": "python",
+        "context": "python programming",
+        "suggestions": [
+          "python"
+        ],
+        "time": 1.430511474609375e-06
+      },
+      {
+        "original": "python",
+        "expected": "python",
+        "context": "python code",
+        "suggestions": [
+          "python"
+        ],
+        "time": 1.1920928955078125e-06
+      },
+      {
+        "original": "api",
+        "expected": "api",
+        "context": "api endpoint",
+        "suggestions": [
+          "api"
+        ],
+        "time": 2.1457672119140625e-06
+      },
+      {
+        "original": "api",
+        "expected": "api",
+        "context": "api call",
+        "suggestions": [
+          "api"
+        ],
+        "time": 7.152557373046875e-07
+      },
+      {
+        "original": "json",
+        "expected": "json",
+        "context": "json data",
+        "suggestions": [
+          "son",
+          "on",
+          "john",
+          "non",
+          "upon"
+        ],
+        "time": 0.021922588348388672
+      },
+      {
+        "original": "json",
+        "expected": "json",
+        "context": "json format",
+        "suggestions": [
+          "son",
+          "on",
+          "john",
+          "non",
+          "upon"
+        ],
+        "time": 0.022176504135131836
+      },
+      {
+        "original": "beleive",
+        "expected": "believe",
+        "context": "I beleive you",
+        "suggestions": [
+          "believe",
+          "belive",
+          "receive",
+          "believed",
+          "believes"
+        ],
+        "time": 0.0671083927154541
+      },
+      {
+        "original": "beleive",
+        "expected": "believe",
+        "context": "beleive in yourself",
+        "suggestions": [
+          "believe",
+          "belive",
+          "receive",
+          "believed",
+          "believes"
+        ],
+        "time": 0.06632137298583984
+      },
+      {
+        "original": "neccessary",
+        "expected": "necessary",
+        "context": "neccessary steps",
+        "suggestions": [
+          "necessary"
+        ],
+        "time": 0.13099098205566406
+      },
+      {
+        "original": "neccessary",
+        "expected": "necessary",
+        "context": "neccessary changes",
+        "suggestions": [
+          "necessary"
+        ],
+        "time": 0.13012123107910156
+      },
+      {
+        "original": "accomodate",
+        "expected": "accommodate",
+        "context": "accomodate guests",
+        "suggestions": [
+          "accomodate"
+        ],
+        "time": 1.0967254638671875e-05
+      },
+      {
+        "original": "accomodate",
+        "expected": "accommodate",
+        "context": "accomodate changes",
+        "suggestions": [
+          "accomodate"
+        ],
+        "time": 1.430511474609375e-06
+      }
+    ]
+  },
+  "comparison": {
+    "original_accuracy": 55.55555555555556,
+    "enhanced_accuracy": 25.0,
+    "improvement_percentage": -55.00000000000001,
+    "vocabulary_improvement": 46468
+  }
+}

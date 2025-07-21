@@ -3,6 +3,7 @@ import re
 from collections import Counter
 import editdistance
 import numpy as np
+import nltk
 
 class Autocorrection(object):
 
@@ -17,6 +18,12 @@ class Autocorrection(object):
         self.counts_of_word = Counter(word)
         self.total_words = float(sum(self.counts_of_word.values()))
         self.prob_of_word = {w: self.counts_of_word[w] / self.total_words for w in self.counts_of_word.keys()}
+
+        # Build bigram counts and probabilities
+        self.bigrams = list(nltk.bigrams(word))
+        self.counts_of_bigram = Counter(self.bigrams)
+        self.total_bigrams = float(sum(self.counts_of_bigram.values()))
+        self.prob_of_bigram = {bg: self.counts_of_bigram[bg] / self.total_bigrams for bg in self.counts_of_bigram.keys()}
 
     def edit1(self, word):
         letter = string.ascii_lowercase
@@ -89,4 +96,26 @@ class Autocorrection(object):
         best_guesses.sort(key=lambda w: self.combined_score(w, word))
 
         return [(w, self.prob_of_word[w]) for w in best_guesses]
+        
+    def correct_spelling_with_context(self, previous_word, word):
+        """
+        Suggest corrections for 'word' using the previous word as context (bigram probability).
+        """
+        if word in self.vocabulary:
+            return [(word, self.prob_of_word[word], self.prob_of_bigram.get((previous_word, word), 0))]
+
+        suggestions = self.edit1(word).union(self.edit2(word))
+        best_guesses = [w for w in suggestions if w in self.vocabulary]
+        if not best_guesses:
+            return [(word, 0, 0)]
+
+        # Sort by combined score: edit distance + unigram prob + bigram prob (if available)
+        def context_score(w):
+            edit_score = self.combined_score(w, word)
+            unigram_score = -np.log(self.prob_of_word.get(w, 1e-9))
+            bigram_score = -np.log(self.prob_of_bigram.get((previous_word, w), 1e-9)) if previous_word else 0
+            return edit_score + unigram_score + 10*bigram_score
+
+        best_guesses.sort(key=context_score)
+        return [(w, self.prob_of_word[w], self.prob_of_bigram.get((previous_word, w), 0)) for w in best_guesses]
         

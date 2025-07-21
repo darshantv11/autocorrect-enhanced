@@ -1,0 +1,562 @@
+{
+  "words": [
+    "rest",
+    "git",
+    "sachin",
+    "priya",
+    "anil",
+    "kl",
+    "reddy",
+    "india",
+    "jadeja",
+    "pdf",
+    "tagore",
+    "ajinkya",
+    "vue",
+    "nps",
+    "chahal",
+    "ashwin",
+    "javascript",
+    "reserve",
+    "jetty",
+    "yogi",
+    "sehwag",
+    "macos",
+    "jhelum",
+    "linux",
+    "kumble",
+    "sqlite",
+    "sadhu",
+    "pnb",
+    "sukanya",
+    "ubuntu",
+    "kisan",
+    "iyer",
+    "amit",
+    "cassandra",
+    "jay",
+    "chenab",
+    "api",
+    "clang",
+    "vscode",
+    "dhan",
+    "svn",
+    "bose",
+    "virat",
+    "tendulkar",
+    "sebi",
+    "pm",
+    "rabbitmq",
+    "acharya",
+    "ganguly",
+    "kubernetes",
+    "fedora",
+    "spacex",
+    "saraswati",
+    "overseas",
+    "airbnb",
+    "canara",
+    "conda",
+    "python",
+    "narmada",
+    "pujara",
+    "guru",
+    "ravichandran",
+    "rar",
+    "khan",
+    "make",
+    "durga",
+    "apache",
+    "bpcl",
+    "sardar",
+    "maharaja",
+    "lldb",
+    "samriddhi",
+    "sita",
+    "irda",
+    "ravindra",
+    "ppt",
+    "ini",
+    "yes",
+    "ganga",
+    "flask",
+    "mercurial",
+    "dravid",
+    "emacs",
+    "shami",
+    "ravi",
+    "html",
+    "tsv",
+    "bhuvi",
+    "kvp",
+    "iyengar",
+    "virender",
+    "gcp",
+    "facebook",
+    "naidu",
+    "windows",
+    "saint",
+    "gradle",
+    "joshi",
+    "gdb",
+    "ntpc",
+    "centos",
+    "graphql",
+    "maharani",
+    "java",
+    "toml",
+    "shah",
+    "rohit",
+    "nehru",
+    "pandey",
+    "union",
+    "manish",
+    "bumrah",
+    "amazon",
+    "wildfly",
+    "tar",
+    "shubman",
+    "docx",
+    "brahmaputra",
+    "sqlserver",
+    "aws",
+    "beats",
+    "arch",
+    "epf",
+    "debian",
+    "docker",
+    "csv",
+    "anjali",
+    "pant",
+    "redis",
+    "valgrind",
+    "bhatt",
+    "sindhu",
+    "fasal",
+    "google",
+    "jdbc",
+    "apple",
+    "zaheer",
+    "nginx",
+    "upadhyay",
+    "ishant",
+    "sunita",
+    "radha",
+    "twitter",
+    "jan",
+    "ioc",
+    "ios",
+    "kohli",
+    "cmake",
+    "gupta",
+    "umesh",
+    "kafka",
+    "drdo",
+    "chopra",
+    "django",
+    "kapoor",
+    "jasprit",
+    "baba",
+    "spring",
+    "lakshmi",
+    "kibana",
+    "singh",
+    "sbi",
+    "axar",
+    "aawas",
+    "ltrace",
+    "sql",
+    "darshan",
+    "xlsx",
+    "sharma",
+    "gill",
+    "chaturvedi",
+    "mishra",
+    "hardik",
+    "idbi",
+    "css",
+    "shardul",
+    "gambhir",
+    "begum",
+    "mehta",
+    "rakesh",
+    "yarn",
+    "rahul",
+    "netbeans",
+    "bank",
+    "rbi",
+    "isro",
+    "malhotra",
+    "tesla",
+    "swami",
+    "angular",
+    "patel",
+    "vishal",
+    "trivedi",
+    "kali",
+    "bhel",
+    "microsoft",
+    "nsc",
+    "ujjwala",
+    "rishabh",
+    "darshantv",
+    "sublime",
+    "by the way",
+    "vim",
+    "dhoni",
+    "axis",
+    "kaveri",
+    "rajesh",
+    "indian",
+    "oracle",
+    "bima",
+    "dev",
+    "surya",
+    "mariadb",
+    "uco",
+    "yadav",
+    "elasticsearch",
+    "pfrda",
+    "indus",
+    "ant",
+    "react",
+    "godavari",
+    "gautam",
+    "yamuna",
+    "kotak",
+    "kuldeep",
+    "cheteshwar",
+    "kavita",
+    "uber",
+    "pptx",
+    "postgresql",
+    "mongodb",
+    "zip",
+    "gavaskar",
+    "central",
+    "android",
+    "sunil",
+    "spotify",
+    "ppf",
+    "intellij",
+    "rahane",
+    "nodejs",
+    "gcc",
+    "yuvraj",
+    "memcached",
+    "logstash",
+    "hibernate",
+    "nhpc",
+    "netflix",
+    "yuzvendra",
+    "pandya",
+    "krishna",
+    "suraksha",
+    "maven",
+    "msvc",
+    "hdfc",
+    "sourav",
+    "pip",
+    "npm",
+    "harbhajan",
+    "slackware",
+    "tomcat",
+    "jpa",
+    "jboss",
+    "meera",
+    "7z",
+    "azure",
+    "express",
+    "hpcl",
+    "jvm",
+    "suresh",
+    "ongc",
+    "neha",
+    "gandhi",
+    "kumar",
+    "parvati",
+    "sutlej",
+    "mohammed",
+    "lyft",
+    "prashant",
+    "thakur",
+    "linkedin",
+    "verma",
+    "atom",
+    "desai",
+    "gentoo",
+    "yaml",
+    "icici",
+    "raja",
+    "gz",
+    "tiwari",
+    "rani",
+    "yojana",
+    "mysql",
+    "beas",
+    "ms",
+    "xml",
+    "json",
+    "shreyas",
+    "strace",
+    "kapil",
+    "eclipse",
+    "nasa"
+  ],
+  "feedback": {
+    ".": {
+      "a": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "s": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "to": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "sakshi": {
+      "satoshi": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "sushi": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "sash": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "saks": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "nmme": {
+      "time": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "namme": {
+      "name": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "named": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "showw": {
+      "show": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "impooertance": {
+      "importance": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "thiss": {
+      "this": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "prooject": {
+      "project": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "prospect": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "protect": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "likke": {
+      "like": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "imprrone": {
+      "improve": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "thiis": {
+      "this": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "their": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "proojecct": {
+      "project": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "projje": {
+      "prone": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "fatther": {
+      "father": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "knoww": {
+      "known": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "foor": {
+      "for": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "from": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "knoow": {
+      "know": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "myy": {
+      "by": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "moothere": {
+      "mother": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "neame": {
+      "name": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "dars": {
+      "darshantv": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "bcz": {
+      "because": {
+        "accepted": 2,
+        "rejected": 0
+      }
+    },
+    "beautifull": {
+      "beautiful": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "evng": {
+      "evening": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "theis": {
+      "this": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "beauttiful": {
+      "beautiful": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "moorning": {
+      "morning": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "definately": {
+      "definately": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "definatel": {
+      "definately": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "receivve": {
+      "receive": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "seaparate": {
+      "seperate": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "packagge": {
+      "package": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "tomorow": {
+      "tomorrow": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "becz": {
+      "been": {
+        "accepted": 1,
+        "rejected": 0
+      },
+      "best": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    },
+    "impoortanta": {
+      "important": {
+        "accepted": 1,
+        "rejected": 0
+      }
+    }
+  }
+}
