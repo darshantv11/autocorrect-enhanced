@@ -125,6 +125,10 @@ class EnhancedAutoCorrectApp(tk.Tk):
         suggestion_scrollbar.pack(side="right", fill="y")
         self.suggestion_listbox.configure(yscrollcommand=suggestion_scrollbar.set)
 
+        # Synonym label below the suggestion listbox
+        self.synonym_label = ttk.Label(right_frame, text="", foreground="blue", wraplength=250, justify="left")
+        self.synonym_label.pack(fill="x", pady=(5, 0))
+
         # Grammar feedback label
         self.grammar_label = ttk.Label(right_frame, text="", foreground="red", 
                                       wraplength=250, justify="left")
@@ -162,6 +166,10 @@ class EnhancedAutoCorrectApp(tk.Tk):
         self.input_box.bind("!", self.on_sentence_end)
         self.input_box.bind("?", self.on_sentence_end)
         self.suggestion_listbox.bind("<<ListboxSelect>>", self.on_listbox_select)
+        self.input_box.bind("<Button-1>", self.on_word_click)
+        self.input_box.bind("<Motion>", self.on_word_hover)
+        self.input_box.bind("<Leave>", self.on_text_leave)
+        self.synonym_popup = None
 
     def on_key_release(self, event):
         """Handle key release events for real-time suggestions."""
@@ -247,6 +255,8 @@ class EnhancedAutoCorrectApp(tk.Tk):
         
         self.suggestion_listbox.delete(0, tk.END)
         self.current_word = ""
+        # Clear grammar feedback when a suggestion is selected
+        self.grammar_label.config(text="")
 
     def on_sentence_end(self, event):
         """Handle sentence ending punctuation."""
@@ -602,6 +612,77 @@ Features Available:
     def run(self):
         """Start the application."""
         self.mainloop()
+
+    def on_word_click(self, event):
+        # Show synonyms for the clicked word in the synonym label
+        index = self.input_box.index(f"@{event.x},{event.y}")
+        word = self.get_word_at_index(index)
+        if word:
+            self.show_synonym_label(word)
+
+    def on_word_hover(self, event):
+        # Show synonyms for the hovered word in a popup below the word
+        index = self.input_box.index(f"@{event.x},{event.y}")
+        word = self.get_word_at_index(index)
+        if word:
+            self.show_synonym_popup(event, word)
+        else:
+            self.hide_synonym_popup()
+
+    def show_synonym_popup(self, event, word):
+        # Show a Toplevel popup with synonyms below the word
+        if self.synonym_popup:
+            self.synonym_popup.destroy()
+        mode = self.mode_var.get()
+        synonyms = []
+        if mode == "enhanced":
+            synonyms = self.enhanced_checker.get_synonyms(word)
+        if not synonyms:
+            return
+        x = self.input_box.winfo_rootx() + event.x
+        y = self.input_box.winfo_rooty() + event.y + 20
+        self.synonym_popup = tk.Toplevel(self)
+        self.synonym_popup.wm_overrideredirect(True)
+        self.synonym_popup.geometry(f"+{x}+{y}")
+        label = tk.Label(self.synonym_popup, text=f"Synonyms for '{word}':\n" + ", ".join(synonyms), background="lightyellow", borderwidth=1, relief="solid", justify="left")
+        label.pack(ipadx=5, ipady=3)
+
+    def hide_synonym_popup(self):
+        if self.synonym_popup:
+            self.synonym_popup.destroy()
+            self.synonym_popup = None
+
+    def on_text_leave(self, event):
+        # Clear the synonym label when the mouse leaves the text area
+        self.synonym_label.config(text="")
+
+    def get_word_at_index(self, index):
+        # Get the word at the given index in the Text widget
+        line, col = map(int, index.split("."))
+        line_text = self.input_box.get(f"{line}.0", f"{line}.end")
+        if not line_text:
+            return ""
+        # Find the word boundaries
+        words = re.finditer(r"\b\w+\b", line_text)
+        for match in words:
+            start, end = match.span()
+            if start <= col < end:
+                return match.group()
+        return ""
+
+    def show_synonym_label(self, word):
+        print(f"show_synonym_label called for word: {word}")
+        if not word or len(word) < 3:
+            self.synonym_label.config(text="")
+            return
+        mode = self.mode_var.get()
+        synonyms = []
+        if mode == "enhanced":
+            synonyms = self.enhanced_checker.get_synonyms(word)
+        if synonyms:
+            self.synonym_label.config(text=f"Synonyms for '{word}': {', '.join(synonyms)}")
+        else:
+            self.synonym_label.config(text="")
 
 if __name__ == "__main__":
     app = EnhancedAutoCorrectApp()

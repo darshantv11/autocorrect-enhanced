@@ -353,3 +353,17 @@ class EnhancedAutocorrection(object):
             'shortcuts': len(self.shortcuts),
             'user_feedback_entries': len(self.user_feedback)
         } 
+
+    def get_synonyms(self, word, max_synonyms=5):
+        """Get synonyms for a word using WordNet."""
+        from nltk.corpus import wordnet
+        print(f"Looking up synonyms for: {word}")
+        synonyms = set()
+        for syn in wordnet.synsets(word):
+            for lemma in syn.lemmas():
+                name = lemma.name().replace('_', ' ').lower()
+                if name != word.lower():
+                    synonyms.add(name)
+        result = list(synonyms)[:max_synonyms]
+        print(f"Found synonyms for '{word}': {result}")
+        return result 
