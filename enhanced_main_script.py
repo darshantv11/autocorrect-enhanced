@@ -768,17 +768,11 @@ Features Available:
                 prev_words.append(corrected_word)
             corrected_lines.append(" ".join(corrected_line))
         corrected_text = "\n".join(corrected_lines)
-        # Show corrected text in a new window
-        result_win = tk.Toplevel(self)
-        result_win.title("Corrected Text")
-        result_win.geometry("600x500")
-        ttk.Label(result_win, text="Corrected Text:").pack(pady=10)
-        result_box = tk.Text(result_win, wrap="word", height=20)
-        result_box.pack(fill="both", expand=True, padx=10, pady=5)
-        result_box.insert("1.0", corrected_text)
-        result_box.config(state="disabled")
-        ttk.Button(result_win, text="Close", command=result_win.destroy).pack(pady=10)
-        parent_win.lift()
+        # Insert corrected text into the main input box
+        self.input_box.delete("1.0", tk.END)
+        self.input_box.insert("1.0", corrected_text)
+        # Close the bulk upload window
+        parent_win.destroy()
 
 if __name__ == "__main__":
     app = EnhancedAutoCorrectApp()
