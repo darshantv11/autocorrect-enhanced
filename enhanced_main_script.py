@@ -45,6 +45,7 @@ class EnhancedAutoCorrectApp(tk.Tk):
         self.previous_words = []
         self.grammar_popup = None
         self.correction_history = []
+        self.bulk_upload_frame = None  # Track the bulk upload frame
 
         # Bind events
         self.bind_events()
@@ -81,6 +82,7 @@ class EnhancedAutoCorrectApp(tk.Tk):
                   command=self.show_shortcuts_dialog).pack(side="left", padx=2)
         ttk.Button(button_frame, text="Performance Stats", 
                   command=self.show_performance_stats).pack(side="left", padx=2)
+        ttk.Button(button_frame, text="Bulk Upload", command=self.show_bulk_upload_window).pack(side="left", padx=2)
 
     def create_text_area(self):
         """Create the main text area and suggestions panel."""
@@ -726,6 +728,57 @@ Features Available:
             self.synonym_label.config(text=f"Synonyms for '{word}': {', '.join(synonyms)}")
         else:
             self.synonym_label.config(text="")
+
+    def show_bulk_upload_window(self):
+        # Open a new window for bulk text input
+        bulk_win = tk.Toplevel(self)
+        bulk_win.title("Bulk Upload & Autocorrect")
+        bulk_win.geometry("600x500")
+        ttk.Label(bulk_win, text="Paste or type your text below:").pack(pady=10)
+        text_input = tk.Text(bulk_win, wrap="word", height=20)
+        text_input.pack(fill="both", expand=True, padx=10, pady=5)
+        upload_btn = ttk.Button(bulk_win, text="Upload & Autocorrect", 
+                                command=lambda: self.process_bulk_upload(text_input.get("1.0", tk.END), bulk_win))
+        upload_btn.pack(pady=10)
+        close_btn = ttk.Button(bulk_win, text="Close", command=bulk_win.destroy)
+        close_btn.pack(pady=5)
+
+    def process_bulk_upload(self, text, parent_win):
+        # Use Enhanced mode autocorrection for bulk text
+        corrected_lines = []
+        for line in text.splitlines():
+            words = line.split()
+            prev_words = []
+            corrected_line = []
+            for word in words:
+                # Remove punctuation for correction, but keep for re-adding
+                match = re.match(r"([\w']+)([.,;!?:]*)", word)
+                if match:
+                    word_part = match.group(1)
+                    punct_part = match.group(2)
+                else:
+                    word_part = word
+                    punct_part = ""
+                corrections = self.enhanced_checker.correct_spelling_enhanced(prev_words, word_part)
+                if corrections:
+                    corrected_word = corrections[0][0]
+                else:
+                    corrected_word = word_part
+                corrected_line.append(corrected_word + punct_part)
+                prev_words.append(corrected_word)
+            corrected_lines.append(" ".join(corrected_line))
+        corrected_text = "\n".join(corrected_lines)
+        # Show corrected text in a new window
+        result_win = tk.Toplevel(self)
+        result_win.title("Corrected Text")
+        result_win.geometry("600x500")
+        ttk.Label(result_win, text="Corrected Text:").pack(pady=10)
+        result_box = tk.Text(result_win, wrap="word", height=20)
+        result_box.pack(fill="both", expand=True, padx=10, pady=5)
+        result_box.insert("1.0", corrected_text)
+        result_box.config(state="disabled")
+        ttk.Button(result_win, text="Close", command=result_win.destroy).pack(pady=10)
+        parent_win.lift()
 
 if __name__ == "__main__":
     app = EnhancedAutoCorrectApp()
