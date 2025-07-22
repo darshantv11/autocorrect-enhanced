@@ -616,11 +616,13 @@ Features Available:
         self.mainloop()
 
     def on_word_click(self, event):
-        # Show synonyms for the clicked word in the synonym label
+        # Show synonyms for the clicked word in the synonym label or hide popup if no word
         index = self.input_box.index(f"@{event.x},{event.y}")
         word = self.get_word_at_index(index)
         if word:
             self.show_synonym_label(word)
+        else:
+            self.hide_synonym_popup()
 
     def on_word_hover(self, event):
         # Show synonyms for the hovered word in a popup below the word
@@ -712,7 +714,7 @@ Features Available:
         return ""
 
     def show_synonym_label(self, word):
-        print(f"show_synonym_label called for word: {word}")
+        # print(f"show_synonym_label called for word: {word}")
         if not word or len(word) < 3:
             self.synonym_label.config(text="")
             return
