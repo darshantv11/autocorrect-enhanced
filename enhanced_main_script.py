@@ -170,6 +170,8 @@ class EnhancedAutoCorrectApp(tk.Tk):
         self.input_box.bind("<Motion>", self.on_word_hover)
         self.input_box.bind("<Leave>", self.on_text_leave)
         self.synonym_popup = None
+        self._mouse_over_text = False
+        self._mouse_over_popup = False
 
     def on_key_release(self, event):
         """Handle key release events for real-time suggestions."""
@@ -622,12 +624,13 @@ Features Available:
 
     def on_word_hover(self, event):
         # Show synonyms for the hovered word in a popup below the word
+        self._mouse_over_text = True
         index = self.input_box.index(f"@{event.x},{event.y}")
         word = self.get_word_at_index(index)
         if word:
             self.show_synonym_popup(event, word)
         else:
-            self.hide_synonym_popup()
+            self.hide_synonym_popup_if_needed()
 
     def show_synonym_popup(self, event, word):
         # Show a Toplevel popup with synonyms below the word
@@ -644,8 +647,46 @@ Features Available:
         self.synonym_popup = tk.Toplevel(self)
         self.synonym_popup.wm_overrideredirect(True)
         self.synonym_popup.geometry(f"+{x}+{y}")
-        label = tk.Label(self.synonym_popup, text=f"Synonyms for '{word}':\n" + ", ".join(synonyms), background="lightyellow", borderwidth=1, relief="solid", justify="left")
-        label.pack(ipadx=5, ipady=3)
+        frame = tk.Frame(self.synonym_popup, background="lightyellow", borderwidth=1, relief="solid")
+        frame.pack(ipadx=5, ipady=3)
+        tk.Label(frame, text=f"Synonyms for '{word}':", background="lightyellow", justify="left").pack(anchor="w")
+        # Find the word's start and end indices in the text widget
+        index = self.input_box.index(f"@{event.x},{event.y}")
+        line, col = map(int, index.split("."))
+        line_text = self.input_box.get(f"{line}.0", f"{line}.end")
+        word_start_idx = None
+        word_end_idx = None
+        for match in re.finditer(r"\b\w+\b", line_text):
+            start, end = match.span()
+            if start <= col < end:
+                word_start_idx = f"{line}.{start}"
+                word_end_idx = f"{line}.{end}"
+                break
+        for syn in synonyms:
+            lbl = tk.Label(frame, text=syn, fg="blue", cursor="hand2", background="lightyellow", underline=True)
+            lbl.pack(anchor="w")
+            lbl.bind("<Button-1>", lambda e, s=syn, ws=word_start_idx, we=word_end_idx: self.replace_word_with_synonym_at_indices(ws, we, s))
+        # Bind <Enter> and <Leave> to the popup to track mouse state
+        self.synonym_popup.bind("<Enter>", self.on_popup_enter)
+        self.synonym_popup.bind("<Leave>", self.on_popup_leave)
+        self._mouse_over_popup = False
+
+    def on_popup_enter(self, event):
+        self._mouse_over_popup = True
+
+    def on_popup_leave(self, event):
+        self._mouse_over_popup = False
+        self.hide_synonym_popup_if_needed()
+
+    def hide_synonym_popup_if_needed(self):
+        if not self._mouse_over_text and not self._mouse_over_popup:
+            self.hide_synonym_popup()
+
+    def replace_word_with_synonym_at_indices(self, word_start_idx, word_end_idx, new_word):
+        if word_start_idx and word_end_idx:
+            self.input_box.delete(word_start_idx, word_end_idx)
+            self.input_box.insert(word_start_idx, new_word)
+        self.hide_synonym_popup()
 
     def hide_synonym_popup(self):
         if self.synonym_popup:
