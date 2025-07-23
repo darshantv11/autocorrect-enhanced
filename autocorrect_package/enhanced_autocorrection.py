@@ -270,7 +270,7 @@ class EnhancedAutocorrection(object):
         return edit_score + prob_score
 
     def enhanced_context_score(self, suggestion, original_word, previous_words):
-        """Calculate enhanced context score using n-grams and user feedback."""
+        """Calculate enhanced context score using n-grams and user feedback, with strong adaptive learning effect."""
         # Base score (edit distance + word probability) - give this more weight
         base_score = self.combined_score(suggestion, original_word) * 2  # Double the weight
         
@@ -287,14 +287,20 @@ class EnhancedAutocorrection(object):
             trigram_prob = self.prob_of_trigram.get((previous_words[-2], previous_words[-1], suggestion), 1e-9)
             context_score += -np.log(trigram_prob) * 1.0  # Reduce trigram weight
         
-        # User feedback score
+        # Stronger user feedback score
         feedback_score = 0
         if original_word in self.user_feedback and suggestion in self.user_feedback[original_word]:
             feedback = self.user_feedback[original_word][suggestion]
             total = feedback['accepted'] + feedback['rejected']
             if total > 0:
                 acceptance_rate = feedback['accepted'] / total
-                feedback_score = -np.log(1 - acceptance_rate) * 1.5  # Moderate user feedback weight
+                # Strong boost/penalty for adaptive learning
+                if acceptance_rate > 0.7:
+                    feedback_score = -10  # Big boost for highly accepted
+                elif acceptance_rate < 0.3:
+                    feedback_score = 10   # Big penalty for highly rejected
+                else:
+                    feedback_score = 0    # Neutral
         
         # Custom word bonus
         custom_bonus = 0
@@ -305,7 +311,7 @@ class EnhancedAutocorrection(object):
 
     def correct_spelling_enhanced(self, previous_words, word):
         """
-        SymSpellPy-only spelling correction (ignores custom corpus for suggestions).
+        SymSpellPy spelling correction with context-aware reranking using n-gram probabilities and strong adaptive learning.
         """
         # First check if it's a shortcut
         shortcut_expansion = self.get_shortcut_expansion(word)
@@ -319,12 +325,16 @@ class EnhancedAutocorrection(object):
         # Use SymSpellPy for fast spelling suggestions
         symspell_suggestions = self.sym_spell.lookup(word, Verbosity.CLOSEST, max_edit_distance=2, include_unknown=True)
         if symspell_suggestions:
-            results = []
-            for suggestion in symspell_suggestions[:5]:
+            scored_results = []
+            for suggestion in symspell_suggestions[:15]:  # Increased from 5 to 15
                 sug_word = suggestion.term
                 prob = suggestion.count  # Use SymSpell frequency count
-                results.append((sug_word, prob, 1.0, "SymSpellPy"))
-            return results
+                # Use context-aware score (lower is better)
+                context_score = self.enhanced_context_score(sug_word, word, previous_words)
+                scored_results.append((sug_word, prob, context_score, "SymSpellPy"))
+            # Sort by context-aware score (lowest = best)
+            scored_results.sort(key=lambda x: x[2])
+            return scored_results
 
         # If no suggestions found, return the original word
         return [(word, 0, 0, "No suggestion")]
