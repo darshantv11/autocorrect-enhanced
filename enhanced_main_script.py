@@ -6,6 +6,7 @@ from autocorrect_package.autocorrection import Autocorrection
 import language_tool_python
 import re
 import time
+# final version
 
 class EnhancedAutoCorrectApp(tk.Tk):
     def __init__(self):
