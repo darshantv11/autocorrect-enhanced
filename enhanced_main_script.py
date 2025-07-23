@@ -165,14 +165,17 @@ class EnhancedAutoCorrectApp(tk.Tk):
         """Bind all keyboard and mouse events."""
         self.input_box.bind("<KeyRelease>", self.on_key_release)
         self.input_box.bind("<space>", self.on_space_bar_press)
+        self.input_box.bind("<Control-space>", self.on_ctrl_space_press)  # New: Ctrl+Space
         self.input_box.bind(".", self.on_sentence_end)
         self.input_box.bind("!", self.on_sentence_end)
         self.input_box.bind("?", self.on_sentence_end)
         self.suggestion_listbox.bind("<<ListboxSelect>>", self.on_listbox_select)
         self.input_box.bind("<Button-1>", self.on_word_click)
+        self.input_box.bind("<Button-3>", self.on_word_right_click)  # New: right-click for sticky popup
         self.input_box.bind("<Motion>", self.on_word_hover)
         self.input_box.bind("<Leave>", self.on_text_leave)
         self.synonym_popup = None
+        self.synonym_popup_sticky = False  # New: sticky flag
         self._mouse_over_text = False
         self._mouse_over_popup = False
 
@@ -220,7 +223,7 @@ class EnhancedAutoCorrectApp(tk.Tk):
             
             # Record correction
             self.record_correction(word_part, correct_word)
-            print(f"Auto-corrected '{word_part}' to '{correct_word}'")
+            # print(f"Auto-corrected '{word_part}' to '{correct_word}'")
 
         self.current_word = ""
         self.grammar_check_last_sentence()
@@ -618,7 +621,25 @@ Features Available:
         """Start the application."""
         self.mainloop()
 
+    def on_word_right_click(self, event):
+        # Show sticky synonym popup for the right-clicked word
+        index = self.input_box.index(f"@{event.x},{event.y}")
+        word = self.get_word_at_index(index)
+        if word:
+            self.synonym_popup_sticky = True
+            self.show_synonym_popup(event, word, sticky=True)
+        else:
+            self.hide_synonym_popup()
+
     def on_word_click(self, event):
+        # If sticky popup is open, clicking empty space closes it
+        if self.synonym_popup_sticky:
+            index = self.input_box.index(f"@{event.x},{event.y}")
+            word = self.get_word_at_index(index)
+            if not word:
+                self.synonym_popup_sticky = False
+                self.hide_synonym_popup()
+                return
         # Show synonyms for the clicked word in the synonym label or hide popup if no word
         index = self.input_box.index(f"@{event.x},{event.y}")
         word = self.get_word_at_index(index)
@@ -629,18 +650,24 @@ Features Available:
 
     def on_word_hover(self, event):
         # Show synonyms for the hovered word in a popup below the word
+        if self.synonym_popup_sticky:
+            return  # Don't override sticky popup with hover
         self._mouse_over_text = True
         index = self.input_box.index(f"@{event.x},{event.y}")
         word = self.get_word_at_index(index)
         if word:
-            self.show_synonym_popup(event, word)
+            self.show_synonym_popup(event, word, sticky=False)
         else:
             self.hide_synonym_popup_if_needed()
 
-    def show_synonym_popup(self, event, word):
+    def show_synonym_popup(self, event, word, sticky=False):
         # Show a Toplevel popup with synonyms below the word
         if self.synonym_popup:
+            if self.synonym_popup_sticky and not sticky:
+                return  # Don't override sticky popup with hover
             self.synonym_popup.destroy()
+        if sticky:
+            self.synonym_popup_sticky = True
         mode = self.mode_var.get()
         synonyms = []
         if mode == "enhanced":
@@ -684,7 +711,8 @@ Features Available:
         self.hide_synonym_popup_if_needed()
 
     def hide_synonym_popup_if_needed(self):
-        if not self._mouse_over_text and not self._mouse_over_popup:
+        # Only hide if not sticky
+        if not self.synonym_popup_sticky and not self._mouse_over_text and not self._mouse_over_popup:
             self.hide_synonym_popup()
 
     def replace_word_with_synonym_at_indices(self, word_start_idx, word_end_idx, new_word):
@@ -697,6 +725,7 @@ Features Available:
         if self.synonym_popup:
             self.synonym_popup.destroy()
             self.synonym_popup = None
+        self.synonym_popup_sticky = False
 
     def on_text_leave(self, event):
         # Clear the synonym label when the mouse leaves the text area
@@ -741,6 +770,9 @@ Features Available:
         upload_btn = ttk.Button(bulk_win, text="Upload & Autocorrect", 
                                 command=lambda: self.process_bulk_upload(text_input.get("1.0", tk.END), bulk_win))
         upload_btn.pack(pady=10)
+        # New: Upload File button
+        file_btn = ttk.Button(bulk_win, text="Upload File", command=lambda: self.upload_file_and_autocorrect(text_input, bulk_win))
+        file_btn.pack(pady=5)
         close_btn = ttk.Button(bulk_win, text="Close", command=bulk_win.destroy)
         close_btn.pack(pady=5)
 
@@ -774,6 +806,72 @@ Features Available:
         self.input_box.insert("1.0", corrected_text)
         # Close the bulk upload window
         parent_win.destroy()
+
+    def upload_file_and_autocorrect(self, text_input, parent_win):
+        import os
+        from tkinter import filedialog, messagebox
+        try:
+            file_path = filedialog.askopenfilename(
+                title="Select a file",
+                filetypes=[("PDF files", "*.pdf"), ("Word files", "*.docx"), ("All files", "*.*")]
+            )
+            if not file_path:
+                return
+            ext = os.path.splitext(file_path)[1].lower()
+            text = ""
+            if ext == ".pdf":
+                try:
+                    import PyPDF2
+                    with open(file_path, "rb") as f:
+                        reader = PyPDF2.PdfReader(f)
+                        for page in reader.pages:
+                            text += page.extract_text() or ""
+                except Exception as e:
+                    messagebox.showerror("PDF Error", f"Failed to extract text from PDF: {e}")
+                    return
+            elif ext == ".docx":
+                try:
+                    import docx
+                    doc = docx.Document(file_path)
+                    for para in doc.paragraphs:
+                        text += para.text + "\n"
+                except Exception as e:
+                    messagebox.showerror("Word Error", f"Failed to extract text from Word file: {e}")
+                    return
+            else:
+                messagebox.showwarning("Unsupported File", "Please select a PDF or Word (.docx) file.")
+                return
+            # Insert extracted text into the text_input box
+            text_input.delete("1.0", "end")
+            text_input.insert("1.0", text)
+            # Optionally, autocorrect immediately:
+            self.process_bulk_upload(text, parent_win)
+        except Exception as e:
+            messagebox.showerror("File Upload Error", f"An error occurred: {e}")
+
+    def on_ctrl_space_press(self, event):
+        """Handle Ctrl+Space: add current word to custom words and insert space without autocorrection."""
+        word = self.current_word
+        if not word:
+            self.input_box.insert("insert", " ")
+            return "break"
+        # Separate punctuation
+        match = re.match(r"([\w']+)([.,;!?:]*)", word)
+        if match:
+            word_part = match.group(1).lower()
+            punct_part = match.group(2)
+        else:
+            word_part = word.lower()
+            punct_part = ""
+        # Add to custom words (so it won't be autocorrected in the future)
+        if self.mode_var.get() == "enhanced":
+            self.enhanced_checker.add_custom_word(word_part)
+            self.update_stats()
+        # Insert the word and a space (bypassing correction)
+        self.input_box.delete(f"insert-{len(word)}c", "insert")
+        self.input_box.insert("insert", word + punct_part + " ")
+        self.current_word = ""
+        return "break"
 
 if __name__ == "__main__":
     app = EnhancedAutoCorrectApp()
